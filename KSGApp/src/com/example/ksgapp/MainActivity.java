@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.ksgapp.R;
 
 import com.example.dialogs.TitleDialog;
 import com.google.android.gms.maps.CameraUpdateFactory;
