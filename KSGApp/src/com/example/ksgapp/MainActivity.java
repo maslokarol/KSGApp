@@ -3,6 +3,8 @@ package com.example.ksgapp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,7 +15,10 @@ import android.widget.Toast;
 
 import com.example.ksgapp.R;
 
+import com.example.db.Data;
 import com.example.dialogs.TitleDialog;
+import com.example.volley.DataVolley;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
@@ -23,15 +28,16 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 
 public class MainActivity extends Activity implements OnMapReadyCallback {
-
-	
 	Button clearPosition, sendToServer;
 	GoogleMap map;
 	List<Data> dataToServer = new ArrayList<Data>();
+	DataVolley volley;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        volley = new DataVolley(getApplicationContext());
         
         clearPosition = (Button)findViewById(R.id.clearPositionBtn);
         sendToServer = (Button)findViewById(R.id.sendToServerBtn);
@@ -96,8 +102,10 @@ public class MainActivity extends Activity implements OnMapReadyCallback {
     	dataToServer.clear();
     }
     
-    public void sendToServer(View view) {
+    public void sendToServer(View view) throws JSONException {
     	//Przes³aæ do bazy zawartoœæ dataToServer
-    	
+    	for(Data d : dataToServer) {
+    		volley.sendData(d.getLatitude(), d.getLongitude(), d.getTitle(), d.getTimestamp());
+    	}
     }
 }

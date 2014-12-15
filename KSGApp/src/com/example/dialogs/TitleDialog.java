@@ -3,7 +3,7 @@ package com.example.dialogs;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.ksgapp.Data;
+import com.example.db.Data;
 import com.example.ksgapp.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
