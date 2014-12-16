@@ -29,9 +29,9 @@ public class DataVolley extends BaseVolley {
 		super(context);
 	}
 	
-	public void sendData(double lat, double lon, String desc, String ts) throws JSONException{
+	public void sendData(final String username, double lat, double lon, String desc, String ts) throws JSONException{
     	JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.POST,
-		Const.URL_SEND, JsonUtils.jLocation(lat, lon, desc, ts),
+		Const.URL_SEND, JsonUtils.jLocation(username, lat, lon, desc, ts),
 		new Response.Listener<JSONObject>() {
  
         @Override

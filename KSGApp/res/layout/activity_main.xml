@@ -1,58 +1,66 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.ksgapp.MainActivity" >
+    tools:context="com.example.ksgapp.MapActivity" >
 
-     <LinearLayout
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:orientation="vertical"
-         android:weightSum="100" >
+    <!-- Login progress -->
 
-         <RelativeLayout
-		      android:layout_width="match_parent"
-		      android:layout_height="0dp"
-		      android:layout_weight="100" >
-		      
-	         <fragment
-	             android:id="@+id/map"
-	             android:layout_width="match_parent"
-	             android:layout_height="match_parent"
-	             class="com.google.android.gms.maps.MapFragment" />
-		</RelativeLayout>
-		
-         <LinearLayout
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_gravity="center_vertical|center"
-             android:layout_marginTop="10dp" >
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
 
-             <Button
-                 android:id="@+id/clearPositionBtn"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:background="@drawable/buttonshape"
-                 android:onClick="clearPosition"
-                 android:text="Wyczyść pozycje"
-                 android:textSize="14sp" />
+    <ScrollView
+        android:id="@+id/login_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
-             <Button
-                 android:id="@+id/sendToServerBtn"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_marginLeft="20dp"
-                 android:background="@drawable/buttonshape"
-                 android:text="Wyślij na serwer"
-                 android:textSize="14sp"
-                 android:onClick="sendToServer" />
+        <LinearLayout
+            android:id="@+id/email_login_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_email"
+                android:maxLines="1"
+                android:singleLine="true" />
 
-         </LinearLayout>
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_password"
+                android:imeActionId="@+id/login"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true" />
 
-     </LinearLayout>
-     
-</RelativeLayout>
+            <Button
+                android:id="@+id/email_sign_in_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/action_sign_in"
+                android:textStyle="bold"
+                android:onClick="login" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

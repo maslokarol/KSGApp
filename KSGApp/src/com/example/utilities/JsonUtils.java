@@ -9,10 +9,10 @@ import org.json.JSONObject;
 
 public class JsonUtils {
 	
-	public static JSONObject jLocation(double lat, double lon, String desc, String ts) throws JSONException{		
+	public static JSONObject jLocation(String username, double lat, double lon, String desc, String ts) throws JSONException{		
 		JSONObject location = new JSONObject();
 		
-		location.put(Const.USERNAME, "maslokarol");
+		location.put(Const.USERNAME, username);
 		location.put(Const.LATITUDE, lat);
 		location.put(Const.LONGITUDE, lon);
 		location.put(Const.DESC, desc);
