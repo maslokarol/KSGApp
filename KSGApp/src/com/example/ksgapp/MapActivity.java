@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +33,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class MapActivity extends Activity implements OnMapReadyCallback {
 	Button clearPosition, sendToServer;
-	TextView helloMessage;
+	Switch autoSendSwitch;
 	GoogleMap map;
 	List<Data> dataToServer = new ArrayList<Data>();
 	DataVolley volley;
@@ -42,19 +43,22 @@ public class MapActivity extends Activity implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        
         volley = new DataVolley(getApplicationContext());
         
         clearPosition = (Button)findViewById(R.id.clearPositionBtn);
         sendToServer = (Button)findViewById(R.id.sendToServerBtn);
-        helloMessage = (TextView) findViewById(R.id.tv_username);
-
+        
         Intent tmp = getIntent();
         username = tmp.getStringExtra("username");
         
-        helloMessage.setText("Witaj " + username);
+        this.setTitle("KSGApp. Witaj " + username);
+        
+        
         clearPosition.setEnabled(false);
         sendToServer.setEnabled(false);
        
+        
         
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -75,7 +79,7 @@ public class MapActivity extends Activity implements OnMapReadyCallback {
 				// TODO Auto-generated method stub
 				//googleMap.addMarker(new MarkerOptions().position(arg0));
 				
-				TitleDialog td = new TitleDialog(googleMap, arg0, dataToServer);
+				TitleDialog td = new TitleDialog(googleMap, arg0, dataToServer, volley, username);
 				td.show(getFragmentManager(), "tag");
 			}
 			
@@ -95,6 +99,18 @@ public class MapActivity extends Activity implements OnMapReadyCallback {
     	for(Data d : dataToServer) {
     		volley.sendData(username, d.getLatitude(), d.getLongitude(), d.getTitle(), d.getTimestamp());
     	}
+    }
+    
+    public void sendRemainPos(View view) throws JSONException {
+    	volley.sendData(username, map.getMyLocation().getLatitude(), map.getMyLocation().getLongitude() , "", "");
+    }
+    
+    public void removeAll(View view) {
+    	
+    }
+    
+    public void removeChosen(View view) {
+    	
     }
     
     @Override

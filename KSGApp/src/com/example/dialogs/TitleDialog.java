@@ -3,8 +3,11 @@ package com.example.dialogs;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
+
 import com.example.db.Data;
 import com.example.ksgapp.R;
+import com.example.volley.DataVolley;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -20,17 +23,23 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class TitleDialog extends DialogFragment{
 	
 	private LatLng position;
 	private GoogleMap map;
 	private List<Data> dataToServer;
+	private DataVolley volley;
+	private String username;
 	
-	public TitleDialog(GoogleMap map, LatLng position,List<Data> dataToServer) {
+	public TitleDialog(GoogleMap map, LatLng position,List<Data> dataToServer,
+			DataVolley volley, String username) {
 		this.position = position;
 		this.map = map;
 		this.dataToServer = dataToServer;
+		this.volley = volley;
+		this.username = username;
 	}
 	
 	public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,6 +47,7 @@ public class TitleDialog extends DialogFragment{
 		final EditText title = (EditText)view.findViewById(R.id.titleET);
 		final EditText snippet = (EditText)view.findViewById(R.id.snippetET);
 		Button save = (Button)view.findViewById(R.id.saveBtn);
+		Button quickSend = (Button)view.findViewById(R.id.quickSendBtn);
 		
 		save.setOnClickListener(new OnClickListener() {
 
@@ -53,14 +63,43 @@ public class TitleDialog extends DialogFragment{
 				now.setToNow();
 				newData.setTimestamp(now.format3339(false));
 				
+				//zapamietanie do wyslania
 				dataToServer.add(newData);
-				
+					
 				map.addMarker(new MarkerOptions()
 					.position(position)
 					.title(title.getText().toString())
 					.snippet(snippet.getText().toString()));
+				
 				dismiss();
 			}
+			
+		});
+		
+		quickSend.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Data newData = new Data();
+				newData.setLatitude(position.latitude);
+				newData.setLongitude(position.longitude);
+				newData.setTitle(title.getText().toString());
+				Time now = new Time();
+				now.setToNow();
+				newData.setTimestamp(now.format3339(false));
+				try {
+					volley.sendData(username, newData.getLatitude(), newData.getLongitude(), 
+								newData.getTitle(), newData.getTimestamp());
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					Toast tst = Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG);
+					tst.show();
+					e.printStackTrace();
+				}
+				dismiss();
+			} 
+			
 			
 		});
 		
