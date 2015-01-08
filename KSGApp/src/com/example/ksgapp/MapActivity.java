@@ -20,8 +20,11 @@ import android.widget.Toast;
 import com.example.ksgapp.R;
 
 import com.example.db.Data;
+import com.example.dialogs.FilterDialog;
 import com.example.dialogs.TitleDialog;
 import com.example.volley.DataVolley;
+import com.example.volley.RemoveVolley;
+import com.example.volley.ShowVolley;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,17 +37,22 @@ import com.google.android.gms.maps.model.LatLng;
 public class MapActivity extends Activity implements OnMapReadyCallback {
 	Button clearPosition, sendToServer;
 	Switch autoSendSwitch;
-	GoogleMap map;
+	public static GoogleMap map;
 	List<Data> dataToServer = new ArrayList<Data>();
-	DataVolley volley;
+	DataVolley volleySend;
+	RemoveVolley volleyRemove;
+	ShowVolley volleyShow;
 	String username;
+	public static String userF, dateBefore, dateAfter;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         
-        volley = new DataVolley(getApplicationContext());
+        volleySend = new DataVolley(getApplicationContext());
+        volleyRemove = new RemoveVolley(getApplicationContext());
+        volleyShow = new ShowVolley(getApplicationContext());
         
         clearPosition = (Button)findViewById(R.id.clearPositionBtn);
         sendToServer = (Button)findViewById(R.id.sendToServerBtn);
@@ -53,13 +61,10 @@ public class MapActivity extends Activity implements OnMapReadyCallback {
         username = tmp.getStringExtra("username");
         
         this.setTitle("KSGApp. Witaj " + username);
-        
-        
+             
         clearPosition.setEnabled(false);
         sendToServer.setEnabled(false);
-       
-        
-        
+           
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
@@ -79,7 +84,7 @@ public class MapActivity extends Activity implements OnMapReadyCallback {
 				// TODO Auto-generated method stub
 				//googleMap.addMarker(new MarkerOptions().position(arg0));
 				
-				TitleDialog td = new TitleDialog(googleMap, arg0, dataToServer, volley, username);
+				TitleDialog td = new TitleDialog(googleMap, arg0, dataToServer, volleySend, username);
 				td.show(getFragmentManager(), "tag");
 			}
 			
@@ -97,20 +102,34 @@ public class MapActivity extends Activity implements OnMapReadyCallback {
     
     public void sendToServer(View view) throws JSONException {
     	for(Data d : dataToServer) {
-    		volley.sendData(username, d.getLatitude(), d.getLongitude(), d.getTitle(), d.getTimestamp());
+    		volleySend.sendData(username, d.getLatitude(), d.getLongitude(), d.getTitle(), d.getTimestamp());   		
     	}
+    	map.clear();
+    	dataToServer.clear();
     }
     
     public void sendRemainPos(View view) throws JSONException {
-    	volley.sendData(username, map.getMyLocation().getLatitude(), map.getMyLocation().getLongitude() , "", "");
+    	volleySend.sendData(username, map.getMyLocation().getLatitude(), map.getMyLocation().getLongitude() , "", "");
     }
     
-    public void removeAll(View view) {
-    	
+    public void showAll(View view) throws JSONException {
+    	volleyShow.show(username, map);
+    	///volleyShow.
     }
     
-    public void removeChosen(View view) {
-    	
+    public void removeAll(View view) throws JSONException {
+    	volleyRemove.remove(username);
+    	map.clear();
+    	dataToServer.clear();
+    	// usunac wszystkie zielone znaczniki
+    }
+    
+    public void filter(View view) throws JSONException {
+    	FilterDialog fd = new FilterDialog(userF, dateBefore, dateAfter, map, volleyShow);
+		fd.show(getFragmentManager(), "tag");
+		
+
+		//volleyShow.show(userF, map);
     }
     
     @Override

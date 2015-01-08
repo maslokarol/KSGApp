@@ -20,4 +20,12 @@ public class JsonUtils {
 		
 		return location;
 	}
+	
+	public static JSONObject jRemove(String username) throws JSONException{		
+		JSONObject location = new JSONObject();
+		
+		location.put(Const.USERNAME, username);
+
+		return location;
+	}
 }

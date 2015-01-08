@@ -8,6 +8,8 @@ public class Const {
 	// server links
 	private final static String server_url = "http://agile-everglades-5619.herokuapp.com/";
 	public static final String URL_SEND = server_url + "user/create";
+	public static final String URL_REMOVE = server_url + "user/removeUser";
+	public static final String URL_FILTER = server_url + "user/filter";
 
 	// Const Strings
 	public static final String USERNAME = "username";

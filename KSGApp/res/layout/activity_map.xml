@@ -37,7 +37,18 @@
 	             android:layout_marginTop="10dp"
 	             android:background="@drawable/buttonshape"
 	             android:onClick="sendRemainPos"
-	             android:text="Wyślij aktualną pozycję"
+	             android:text="Wyślij moją aktualną\n pozycję"
+	             android:textSize="10sp" />
+
+	         <Button
+	             android:id="@+id/showAllBtn"
+	             android:layout_width="wrap_content"
+	             android:layout_height="wrap_content"
+	             android:layout_alignLeft="@+id/sendRemainPosBtn"
+	             android:layout_below="@+id/sendRemainPosBtn"
+	             android:background="@drawable/buttonshape"
+	             android:onClick="showAll"
+	             android:text="Pokaż moje wszystkie\nzapisane punkty"
 	             android:textSize="10sp" />
 
 		</RelativeLayout>
@@ -85,7 +96,7 @@
                      android:layout_height="wrap_content"
                      android:layout_marginLeft="20dp"
                      android:background="@drawable/buttonshape"
-                     android:text="Usuń wszystkie"
+                     android:text="Usuń wszystkie\n(z bazy)"
                      android:textSize="14sp" 
                      android:onClick="removeAll"/>
 
@@ -96,9 +107,9 @@
                      android:layout_marginLeft="20dp"
                      android:layout_marginTop="5dp"
                      android:background="@drawable/buttonshape"
-                     android:text="Usuń wybrane"
+                     android:text="Filtruj..."
                      android:textSize="14sp"
-                     android:onClick="removeChosen" />
+                     android:onClick="filter" />
 
              </LinearLayout>
 

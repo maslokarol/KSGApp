@@ -70,7 +70,7 @@ public class BaseVolley {
             	Toast.makeText(ctx, Const.CustomAppError.e500, Toast.LENGTH_LONG).show();
             	Log.e("BaseVolley", error.toString());
             } else if (isParseError(error.toString())) {
-            	Toast.makeText(ctx, "JSON Parse error" + ctx.getClass(), Toast.LENGTH_LONG).show();
+            	//Toast.makeText(ctx, "JSON Parse error" + ctx.getClass(), Toast.LENGTH_LONG).show();
             	Log.e("BaseVolley", error.toString());
             } else {
             	Toast.makeText(ctx, "Something wrong.. try again.", Toast.LENGTH_LONG).show();
